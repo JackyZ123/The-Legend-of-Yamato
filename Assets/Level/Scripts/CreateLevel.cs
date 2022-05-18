@@ -8,10 +8,7 @@ public class CreateLevel : MonoBehaviour
 
     public int[] numPathProbabilities;
 
-    public int[] size = { 10, 10 };
-
-    public int[] startPos;
-    public int[] startDirs;
+    public int[] size;
 
     public int[,] map;
 
@@ -180,10 +177,11 @@ public class CreateLevel : MonoBehaviour
         Debug.Log(toPrint);
     }
 
-    void CreateNewMap(int sizeX, int sizeY, int startPosX, int startPosY, int minRoomNum, int[] startDirections)
+    public void CreateNewMap(int sizeX, int sizeY, int startPosX, int startPosY, int minRoomNum, int[] startDirections)
     {
         minRooms = minRoomNum;
-        map = new int[sizeX, sizeY];
+        map = new int[sizeY, sizeX];
+        size = new int[] { sizeY, sizeX };
 
         ResetMap();
 
@@ -194,15 +192,13 @@ public class CreateLevel : MonoBehaviour
             ResetMap();
             maxNode = MakeFirst(startPosX, startPosY, startDirections);
         }
+
+        PrintDetails();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-
-        CreateNewMap(size[0], size[1], startPos[0], startPos[1], minRooms, startDirs);
-
-        PrintDetails();
     }
 }
