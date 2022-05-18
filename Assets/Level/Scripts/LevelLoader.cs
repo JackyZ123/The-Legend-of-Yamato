@@ -58,7 +58,7 @@ public class LevelLoader : MonoBehaviour
                 GameObject path = Instantiate(debugPath);
                 path.transform.parent = debugPaths.transform;
 
-                path.transform.position = new Vector2(pos.x * 2 - 4, 9 - pos.y * 2) + new Vector2(nodeData[3], -nodeData[4]);
+                path.transform.position = new Vector2(pos.x * 2 - 8, 9 - pos.y * 2) + new Vector2(nodeData[3], -nodeData[4]);
                 Vector2 scale = new Vector2(1, 1);
 
                 if (nodeData[3] != 0)
@@ -85,9 +85,9 @@ public class LevelLoader : MonoBehaviour
             // add prefab
             GameObject node = Instantiate(debugNode);
 
-            node.transform.position = new Vector2(pos.x * 2 - 4, 9 - pos.y * 2);
+            node.transform.position = new Vector2(pos.x * 2 - 8, 9 - pos.y * 2);
             node.name = "Node " + nodeData[0].ToString();
-            node.GetComponentInChildren<TextMesh>().text = nodeData[0].ToString();
+            node.GetComponentInChildren<TextMesh>().text = (nodeData[0] < 10 ? "0" : "") + nodeData[0].ToString();
             node.transform.parent = debugNodes.transform;
 
             int[] paths = manager.GetPaths(pos);

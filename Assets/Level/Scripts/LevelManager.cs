@@ -95,10 +95,10 @@ public class LevelManager : MonoBehaviour
 
         string stringPath = "";
 
-        foreach (int path in paths)
-        {
-            stringPath += path.ToString() + " ";
-        }
+        // foreach (int path in paths)
+        // {
+        //     stringPath += path.ToString() + " ";
+        // }
 
         Debug.Log(stringPath);
     }
