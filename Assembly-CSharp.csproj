@@ -37,8 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Level\Scripts\CreateLevel.cs" />
-     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Level\Scripts\LevelLoader.cs" />
+     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.27f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

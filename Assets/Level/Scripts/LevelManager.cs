@@ -5,68 +5,127 @@ using UnityEngine;
 [RequireComponent(typeof(CreateLevel))]
 public class LevelManager : MonoBehaviour
 {
-    public CreateLevel generator;
+    [System.Serializable]
+    public class RoomData
+    {
+        public int type;
 
-    [Header("Map Information")]
+        public GameObject background;
+        public GameObject Walls;
+    }
+
+    [System.Serializable]
+    public class Room
+    {
+        public int index;
+
+        public int up;
+        public int right;
+        public int down;
+        public int left;
+
+        public Vector2 position;
+        public int distanceFromStart;
+
+        [SerializeField]
+        public RoomData data;
+    }
+
+    public CreateLevel generator;
+    public LevelLoader loader;
+
+    [Header("Map Generation")]
     public Vector2 size = new Vector2(10, 10);
     public Vector2 startPos = new Vector2(2, 2);
+    public int[] startDirections;
     public int minRoomNum = 8;
     public int[] numPathProbabilities = { 2, 5, 1 };
+    public int endRoomThreshold = 2;
 
-    public int[,] map;
-    public List<List<int>> conns;
+    [Header("Map Deatils")]
+    public List<Vector2> roomPos;
+    public List<Room> rooms;
+    public int maxDistance = 0;
+    public Room endRoom;
 
-    [Header("Node Navigation")]
-    public int currentNode = 0;
-    public Vector2 currentPosition = new Vector2(2, 2);
 
-    void GenerateNewMap()
+    [Header("Debug")]
+    public float debugScale = 0.75f;
+    public GameObject debugNode;
+    public GameObject debugPath;
+
+    public void GenerateNewMap()
     {
-        generator.CreateNewMap((int)size.x, (int)size.y, (int)startPos.x, (int)startPos.y, minRoomNum, numPathProbabilities);
-        currentPosition = startPos;
+        generator.CreateNewMap((int)size.x, (int)size.y, (int)startPos.x, (int)startPos.y, minRoomNum, startDirections, numPathProbabilities);
         GetMap();
+        GetEndRoom();
     }
 
     void GetMap()
     {
-        map = generator.map;
-        conns = generator.conns;
-    }
+        maxDistance = 0;
+        roomPos = generator.GetRoomPositions();
+        List<List<int>> conns = generator.GetRoomConnections();
+        List<int> distanceToRooms = generator.GetDistanceToRooms();
 
-    public int GetNode(Vector2 pos)
-    {
-        return map[(int)pos.y, (int)pos.x];
-    }
+        rooms = new List<Room>(0);
 
-    int CheckForPath(int node, int posX, int posY, int deltaX, int deltaY)
-    {
-        int path = -1;
-
-        if (posX + deltaX >= 0 && posX + deltaX < size.x && posY + deltaY >= 0 && posY + deltaY < size.y - 1)
+        for (int i = 0; i < roomPos.Count; i++)
         {
-            // we are in bounds
-            int room = map[(int)posY + deltaY, (int)posX + deltaX];
+            Room room = new Room();
+            room.index = i;
 
-            // Debug.Log("Room " + room.ToString() + " from " + node.ToString() + " at X=" + (posX + deltaX).ToString() + " and Y=" + (posY + deltaY).ToString());
+            int[] paths = GetPaths(i, conns[i]);
+            room.up = paths[0];
+            room.right = paths[1];
+            room.down = paths[2];
+            room.left = paths[3];
 
-            if (room > -1)
+            room.position = roomPos[i];
+            room.distanceFromStart = distanceToRooms[i];
+            maxDistance = Mathf.Max(maxDistance, distanceToRooms[i]);
+
+            int type = Random.Range(0, 2);
+            room.data = new RoomData();
+            room.data.type = type;
+            room.data.background = loader.GetRoomBackground(room.data.type);
+
+            rooms.Add(room);
+        }
+    }
+
+    void GetEndRoom()
+    {
+        List<Room> possibleRooms = new List<Room>(0);
+
+        foreach (Room room in rooms)
+        {
+            if (room.distanceFromStart >= maxDistance - endRoomThreshold)
             {
-                // there is a room up there
-                if (conns[node].Contains(room))
-                {
-                    // there is a path to top room
-                    path = room;
-                }
+                possibleRooms.Add(room);
             }
         }
 
-        return path;
+        endRoom = possibleRooms[Random.Range(0, possibleRooms.Count)];
     }
 
-    public int[] GetPaths(Vector2 position)
+    public Room GetRoom(int index)
     {
-        int node = map[(int)position.y, (int)position.x];
-        currentNode = node;
+        return rooms[index];
+    }
+
+    public int GetNodeFromPosition(Vector2 position)
+    {
+        if (!roomPos.Contains(position))
+        {
+            return -1;
+        }
+        return roomPos.IndexOf(position);
+    }
+
+    public int[] GetPaths(int node, List<int> conns)
+    {
+        Vector2 currentPos = roomPos[node];
 
         // print("Paths of " + node.ToString());
 
@@ -74,14 +133,156 @@ public class LevelManager : MonoBehaviour
 
         // check rooms
 
-        paths[0] = CheckForPath(node, (int)position.x, (int)position.y, 0, -1);
-        paths[1] = CheckForPath(node, (int)position.x, (int)position.y, 1, 0);
-        paths[2] = CheckForPath(node, (int)position.x, (int)position.y, 0, 1);
-        paths[3] = CheckForPath(node, (int)position.x, (int)position.y, -1, 0);
+        foreach (int connectedNode in conns)
+        {
+            int[] deltaPosition = new int[] { (int)(roomPos[connectedNode].x - currentPos.x), (int)(roomPos[connectedNode].y - currentPos.y) };
+            if (deltaPosition[1] == -1)
+            {
+                // the room is up
+                paths[0] = connectedNode;
+            }
+            else if (deltaPosition[0] == 1)
+            {
+                // the room is to the right
+                paths[1] = connectedNode;
+            }
+            else if (deltaPosition[1] == 1)
+            {
+                // the room is down
+                paths[2] = connectedNode;
+            }
+            else if (deltaPosition[0] == -1)
+            {
+                // the room is to the left
+                paths[3] = connectedNode;
+            }
+        }
 
         return paths;
     }
 
+    public void DebugLevel()
+    {
+        // shows the level in the scene through squares with connections
+
+        // start at node 0 and check each path and visit remembering the locations to add prefab of room
+
+        if (GameObject.Find("Map Layout"))
+        {
+            DestroyImmediate(GameObject.Find("Map Layout"));
+        }
+
+        GameObject debugObject = new GameObject();
+        debugObject.transform.parent = Camera.main.transform;
+        debugObject.transform.position = Vector3.forward;
+        debugObject.name = "Map Layout";
+
+        GameObject debugNodes = new GameObject();
+        debugNodes.name = "Nodes";
+        debugNodes.transform.parent = debugObject.transform;
+        debugObject.transform.localPosition = Vector3.zero;
+
+        GameObject debugPaths = new GameObject();
+        debugPaths.name = "Paths";
+        debugPaths.transform.parent = debugObject.transform;
+        debugObject.transform.localPosition = Vector3.zero;
+
+
+        List<int> visited = new List<int>(0);
+
+        visited.Add(-1);
+
+        Room currentNode = loader.GetCurrentRoom();
+
+        Queue<Room[]> toCheck = new Queue<Room[]>();
+
+        toCheck.Enqueue(new Room[] { rooms[0], rooms[0] });
+
+        while (toCheck.Count > 0)
+        {
+            Room[] nodeData = toCheck.Dequeue();
+            Room thisNode = nodeData[0];
+            Room lastNode = nodeData[1];
+
+            // Debug.Log(thisNode.index);
+
+            // Debug.Log("Node " + nodeData[0].ToString() + ", X: " + nodeData[1].ToString() + ", Y:" + nodeData[2].ToString());
+
+            if (thisNode.index > lastNode.index)
+            {
+                // add path
+                // path should be at pos - pos(node[3], node[4])
+                // scale should be .5 for one it came from
+                GameObject path = Instantiate(debugPath);
+                path.transform.parent = debugPaths.transform;
+
+                Vector2 newPos = thisNode.position + lastNode.position;
+                newPos.y = -newPos.y;
+                newPos += new Vector2(-8, 9);
+                path.transform.localPosition = new Vector3(newPos.x, newPos.y, 0) * debugScale;
+                Vector2 scale = new Vector2(1, 1);
+
+                if (thisNode.position.x - lastNode.position.x != 0)
+                {
+                    scale.y = 0.5f;
+                }
+                else
+                {
+                    scale.x = 0.5f;
+                }
+
+                path.transform.localScale = scale * debugScale;
+
+                path.name = "Path from " + lastNode.ToString() + " to " + thisNode.ToString();
+            }
+
+            if (visited.Contains(thisNode.index))
+            {
+                continue;
+            }
+
+            visited.Add(thisNode.index);
+
+            // add prefab
+            GameObject nodePrefab = Instantiate(debugNode);
+
+            if (thisNode.index == 0)
+            {
+                nodePrefab.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+            if (thisNode.index == endRoom.index)
+            {
+                nodePrefab.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+
+            if (thisNode.index == currentNode.index)
+            {
+                nodePrefab.GetComponent<SpriteRenderer>().color = Color.blue;
+            }
+
+            nodePrefab.transform.localPosition = new Vector3(thisNode.position.x * 2 - 8, 9 - thisNode.position.y * 2, 0) * debugScale;
+            nodePrefab.transform.localScale = Vector2.one * debugScale;
+            nodePrefab.name = "Node " + thisNode.index.ToString();
+            nodePrefab.GetComponentInChildren<TextMesh>().text = (thisNode.index < 10 ? "0" : "") + thisNode.index.ToString();
+            nodePrefab.transform.parent = debugNodes.transform;
+
+            int[] paths = new int[] { thisNode.up, thisNode.right, thisNode.down, thisNode.left };
+
+            // foreach (int path in paths)
+            // {
+            //     Debug.Log("Path " + nodeData[0].ToString() + " to " + path.ToString());
+            // }
+
+            // add connected nodes
+            foreach (int connectedNode in paths)
+            {
+                if (connectedNode > -1)
+                    toCheck.Enqueue(new Room[] { rooms[connectedNode], thisNode });
+            }
+        }
+
+        loader.GetRoomExits();
+    }
 
     private void Awake()
     {
@@ -90,16 +291,19 @@ public class LevelManager : MonoBehaviour
             generator = GetComponent<CreateLevel>();
         }
 
+        if (!loader)
+        {
+            loader = GetComponent<LevelLoader>();
+        }
+
         GenerateNewMap();
-        int[] paths = GetPaths(startPos);
+    }
 
-        string stringPath = "";
-
-        // foreach (int path in paths)
-        // {
-        //     stringPath += path.ToString() + " ";
-        // }
-
-        Debug.Log(stringPath);
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            DebugLevel();
+        }
     }
 }
