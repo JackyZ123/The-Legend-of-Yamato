@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(LevelManager))]
 public class LevelLoader : MonoBehaviour
 {
     public LevelManager manager;
 
-    public GameObject debugNode;
-    public GameObject debugPath;
+    public LevelManager.Room currentRoom;
+
+    [Header("Debug")]
+    public GameObject arrowPointer;
 
     private void Awake()
     {
@@ -18,107 +21,123 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-
-    void DebugLevel()
+    public LevelManager.Room GetCurrentRoom()
     {
-        // shows the level in the scene through squares with connections
+        return currentRoom;
+    }
 
-        // start at node 0 and check each path and visit remembering the locations to add prefab of room
-
-        GameObject debugObject = new GameObject();
-        debugObject.name = "Map Layout";
-        GameObject debugNodes = new GameObject();
-        debugNodes.name = "Nodes";
-        debugNodes.transform.parent = debugObject.transform;
-        GameObject debugPaths = new GameObject();
-        debugPaths.name = "Paths";
-        debugPaths.transform.parent = debugObject.transform;
-
-        List<int> visited = new List<int>(0);
-
-        visited.Add(-1);
-
-        Queue<int[]> toCheck = new Queue<int[]>();
-
-        toCheck.Enqueue(new int[] { 0, (int)manager.startPos.x, (int)manager.startPos.y, 0, 0 });
-
-        while (toCheck.Count > 0)
+    public void GetRoomExits()
+    {
+        foreach (string arrowName in new string[] { "Up", "Right", "Down", "Left" })
         {
-            int[] nodeData = toCheck.Dequeue();
-
-            // Debug.Log("Node " + nodeData[0].ToString() + ", X: " + nodeData[1].ToString() + ", Y:" + nodeData[2].ToString());
-
-            Vector2 pos = new Vector2(nodeData[1], nodeData[2]);
-
-            if (nodeData[0] > manager.GetNode(new Vector2(nodeData[1] + nodeData[3], nodeData[2] + nodeData[4])))
+            if (GameObject.Find("Arrow " + arrowName))
             {
-                // add path
-                // path should be at pos - pos(node[3], node[4])
-                // scale should be .5 for one it came from
-                GameObject path = Instantiate(debugPath);
-                path.transform.parent = debugPaths.transform;
-
-                path.transform.position = new Vector2(pos.x * 2 - 8, 9 - pos.y * 2) + new Vector2(nodeData[3], -nodeData[4]);
-                Vector2 scale = new Vector2(1, 1);
-
-                if (nodeData[3] != 0)
-                {
-                    scale.y = 0.5f;
-                }
-                else
-                {
-                    scale.x = 0.5f;
-                }
-
-                path.transform.localScale = scale;
-
-                path.name = "Path from " + manager.GetNode(new Vector2(nodeData[1] + nodeData[3], nodeData[2] + nodeData[4])).ToString() + " to " + nodeData[0].ToString();
+                GameObject.DestroyImmediate(GameObject.Find("Arrow " + arrowName));
             }
+        }
 
-            if (visited.Contains(nodeData[0]))
-            {
-                continue;
-            }
+        // check for connection upwards
+        if (currentRoom.up > -1)
+        {
+            GameObject arrow = Instantiate(arrowPointer);
+            arrow.transform.position = Vector2.up * 9;
+            arrow.name = "Arrow Up";
+        }
+        if (currentRoom.right > -1)
+        {
 
-            visited.Add(nodeData[0]);
-
-            // add prefab
-            GameObject node = Instantiate(debugNode);
-
-            node.transform.position = new Vector2(pos.x * 2 - 8, 9 - pos.y * 2);
-            node.name = "Node " + nodeData[0].ToString();
-            node.GetComponentInChildren<TextMesh>().text = (nodeData[0] < 10 ? "0" : "") + nodeData[0].ToString();
-            node.transform.parent = debugNodes.transform;
-
-            int[] paths = manager.GetPaths(pos);
-
-            // foreach (int path in paths)
-            // {
-            //     Debug.Log("Path " + nodeData[0].ToString() + " to " + path.ToString());
-            // }
-
-            // add connected nodes
-            if (paths[0] > -1)
-            {
-                toCheck.Enqueue(new int[] { paths[0], (int)pos.x, (int)pos.y - 1, 0, 1 });
-            }
-            if (paths[1] > -1)
-            {
-                toCheck.Enqueue(new int[] { paths[1], (int)pos.x + 1, (int)pos.y, -1, 0 });
-            }
-            if (paths[2] > -1)
-            {
-                toCheck.Enqueue(new int[] { paths[2], (int)pos.x, (int)pos.y + 1, 0, -1 });
-            }
-            if (paths[3] > -1)
-            {
-                toCheck.Enqueue(new int[] { paths[3], (int)pos.x - 1, (int)pos.y, 1, 0 });
-            }
+            GameObject arrow = Instantiate(arrowPointer);
+            arrow.transform.position = Vector2.right * 9;
+            arrow.transform.Rotate(new Vector3(0, 0, -90));
+            arrow.name = "Arrow Right";
+        }
+        if (currentRoom.down > -1)
+        {
+            GameObject arrow = Instantiate(arrowPointer);
+            arrow.transform.position = Vector2.down * 9;
+            arrow.transform.Rotate(new Vector3(0, 0, 180));
+            arrow.name = "Arrow Down";
+        }
+        if (currentRoom.left > -1)
+        {
+            GameObject arrow = Instantiate(arrowPointer);
+            arrow.transform.position = Vector2.left * 9;
+            arrow.transform.Rotate(new Vector3(0, 0, 90));
+            arrow.name = "Arrow Left";
         }
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // we move up if possible
+            if (currentRoom.up > -1)
+            {
+                // move up
+                currentRoom = manager.GetRoom(currentRoom.up);
+                manager.DebugLevel();
+            }
+            else
+            {
+                Debug.Log("Can't go up");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // we move right if possible
+            if (currentRoom.right > -1)
+            {
+                // move right
+                currentRoom = manager.GetRoom(currentRoom.right);
+                manager.DebugLevel();
+            }
+            else
+            {
+                Debug.Log("Can't go right");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            // we move down if possible
+            if (currentRoom.down > -1)
+            {
+                // move down
+                currentRoom = manager.GetRoom(currentRoom.down);
+                manager.DebugLevel();
+            }
+            else
+            {
+                Debug.Log("Can't go up");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // we move up if possible
+            if (currentRoom.left > -1)
+            {
+                // move left
+                currentRoom = manager.GetRoom(currentRoom.left);
+                manager.DebugLevel();
+            }
+            else
+            {
+                Debug.Log("Can't go left");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            manager.GenerateNewMap();
+            currentRoom = manager.GetRoom(0);
+            manager.DebugLevel();
+        }
+    }
+
+
     private void Start()
     {
-        DebugLevel();
+        currentRoom = manager.GetRoom(0);
+        manager.DebugLevel();
     }
 }

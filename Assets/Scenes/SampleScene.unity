@@ -237,9 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4efc567e1a5bd63428c238972397c515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRooms: 8
-  numPathProbabilities: 020000000500000001000000
-  size: 0a0000000a000000
 --- !u!4 &909153125
 Transform:
   m_ObjectHideFlags: 0
@@ -267,12 +264,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: {fileID: 909153124}
+  loader: {fileID: 0}
   size: {x: 10, y: 10}
   startPos: {x: 2, y: 2}
+  startDirections: 0100000002000000
   minRoomNum: 8
   numPathProbabilities: 020000000500000001000000
-  currentNode: 0
-  currentPosition: {x: 2, y: 2}
+  endRoomThreshold: 1
+  roomPos: []
+  maxDistance: 0
+  debugScale: 0.75
+  debugNode: {fileID: 2728607681222212749, guid: bd78d3c15ac7efc4fb7274c64706f11b, type: 3}
+  debugPath: {fileID: 2100834459269508844, guid: 6c74112e0bef548499e1186def756de1, type: 3}
 --- !u!114 &909153127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,5 +289,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  debugNode: {fileID: 2728607681222212749, guid: bd78d3c15ac7efc4fb7274c64706f11b, type: 3}
-  debugPath: {fileID: 2100834459269508844, guid: 6c74112e0bef548499e1186def756de1, type: 3}
+  arrowPointer: {fileID: 5122595551270840774, guid: 85a383265c280d04781b7c987e507efe, type: 3}
