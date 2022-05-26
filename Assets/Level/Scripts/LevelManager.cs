@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
         public int left;
 
         public Vector2 position;
+        public Vector2 mapPosition;
         public int distanceFromStart;
 
         [SerializeField]
@@ -81,6 +82,7 @@ public class LevelManager : MonoBehaviour
             room.left = paths[3];
 
             room.position = roomPos[i];
+            room.mapPosition = new Vector2(room.position.x, -room.position.y) * loader.roomSpread;
             room.distanceFromStart = distanceToRooms[i];
             maxDistance = Mathf.Max(maxDistance, distanceToRooms[i]);
 
@@ -220,7 +222,7 @@ public class LevelManager : MonoBehaviour
                 Vector2 newPathPos = thisNode.position + lastNode.position;
                 newPathPos.y = -newPathPos.y;
                 newPathPos = new Vector3(newPathPos.x, newPathPos.y, 0) * debugScale;
-                path.transform.position = newPathPos + new Vector2(-9, 9);
+                path.transform.localPosition = newPathPos + new Vector2(-9, 9);
                 Vector2 scale = new Vector2(1, 1);
 
                 if (thisNode.position.x - lastNode.position.x != 0)
@@ -305,7 +307,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             DebugLevel();
         }

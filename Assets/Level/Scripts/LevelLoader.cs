@@ -404,7 +404,7 @@ public class LevelLoader : MonoBehaviour
         {
             GameObject RoomParent = new GameObject();
             RoomParent.name = "Room " + room.index.ToString();
-            RoomParent.transform.position = new Vector2(room.position.x, -room.position.y) * roomSpread;
+            RoomParent.transform.position = room.mapPosition;
             RoomParent.transform.parent = RoomDirectory.transform;
 
             LoadRoom(room, RoomParent);
