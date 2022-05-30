@@ -268,7 +268,7 @@ MonoBehaviour:
   size: {x: 10, y: 10}
   startPos: {x: 2, y: 2}
   startDirections: 0100000002000000
-  minRoomNum: 10
+  minRoomNum: 8
   numPathProbabilities: 020000000500000001000000
   endRoomThreshold: 1
   roomPos: []
@@ -276,7 +276,6 @@ MonoBehaviour:
   maxDistance: 0
   endRoom:
     index: 0
-    isComplete: 0
     up: 0
     right: 0
     down: 0
@@ -306,7 +305,6 @@ MonoBehaviour:
   manager: {fileID: 0}
   currentRoom:
     index: 0
-    isComplete: 0
     up: 0
     right: 0
     down: 0
@@ -320,7 +318,6 @@ MonoBehaviour:
       Walls: {fileID: 0}
   roomScale: 30
   roomSpread: 50
-  typesProbabilities: 03000000020000000100000001000000
   roomBackgrounds:
     list:
     - list:
@@ -328,15 +325,9 @@ MonoBehaviour:
       - {fileID: 4493403811135737996, guid: 1306929d969ec7544bc51f0120f3e8a1, type: 3}
     - list:
       - {fileID: 8271513932176853014, guid: 670560307a1921847b1f2ff4b253eeee, type: 3}
-    - list:
-      - {fileID: 855919455356603259, guid: b7faf6bf790027c4b9ef0d61d928d116, type: 3}
-    - list:
-      - {fileID: 2069476213160421271, guid: 4f1bbde17d4266f4285163428a765984, type: 3}
   roomWalls:
   - {fileID: 7007172446335157738, guid: 46dc54282210bb04a9a63f2baa59b6c4, type: 3}
   - {fileID: 3187698158982084081, guid: 736d288d44d3bbb4fb3d592d530e9a32, type: 3}
-  - {fileID: 4839388691246193489, guid: 22509fd995c3c3a4b90edf99cce771fe, type: 3}
-  - {fileID: 480288702435965463, guid: 0879c8ad1f1aa084bad10cfaa72585a0, type: 3}
   pathBackgrounds:
   - {fileID: 5760606308337759102, guid: 4b0576fcafe23ac41aee49a4844fd530, type: 3}
   pathWall: {fileID: 2213885940242037670, guid: 4804d5dbbf3729c42bd2180805b94fd6, type: 3}

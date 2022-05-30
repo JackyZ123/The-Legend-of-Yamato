@@ -30,7 +30,6 @@ public class LevelLoader : MonoBehaviour
 
 
     [Header("Room Details")]
-    public int[] typesProbabilities;
     public GameObjectNestedList roomBackgrounds;
     public List<GameObject> roomWalls;
     public List<GameObject> pathBackgrounds;
@@ -51,22 +50,6 @@ public class LevelLoader : MonoBehaviour
     public LevelManager.Room GetCurrentRoom()
     {
         return currentRoom;
-    }
-
-    public int GetRoomType()
-    {
-        List<int> typesChoices = new List<int>(0);
-
-        for (int i = 0; i < typesProbabilities.Length; i++)
-        {
-
-            for (int j = 0; j < typesProbabilities[i]; j++)
-            {
-                typesChoices.Add(i);
-            }
-        }
-
-        return typesChoices[Random.Range(0, typesChoices.Count)];
     }
 
     public GameObject GetRoomBackground(int type)
@@ -194,34 +177,14 @@ public class LevelLoader : MonoBehaviour
         background.transform.localPosition = Vector3.zero;
         background.name = "Background";
 
-        GameObject walls = Instantiate(roomWalls[room.data.type]);
-        walls.transform.parent = parent.transform;
-        walls.transform.localPosition = Vector3.zero;
-        walls.name = "Walls";
-
-        if (room.data.type == 0)
-        {
-            // its a big room
-            if (room.up != -1)
-            {
-                walls.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-            }
-            if (room.right != -1)
-            {
-                walls.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
-            }
-            if (room.down != -1)
-            {
-                walls.transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
-            }
-            if (room.left != -1)
-            {
-                walls.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
-            }
-        }
-        else if (room.data.type == 1)
+        if (room.data.type == 1)
         {
             // its a small room
+            GameObject walls = Instantiate(roomWalls[1]);
+            walls.transform.parent = parent.transform;
+            walls.transform.localPosition = Vector3.zero;
+            walls.name = "Walls";
+
             if (room.up == -1)
             {
                 // small room so remove little bit hanging
@@ -263,67 +226,26 @@ public class LevelLoader : MonoBehaviour
             }
 
         }
-        else if (room.data.type == 2)
+        else
         {
-            // its a thin room
+            // its a big room
+            GameObject walls = Instantiate(roomWalls[0]);
+            walls.transform.parent = parent.transform;
+            walls.transform.localPosition = Vector3.zero;
+            walls.name = "Walls";
+
             if (room.up != -1)
             {
                 walls.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
             }
-
-            if (room.right == -1)
-            {
-                // small room so remove little bit hanging
-                Destroy(background.transform.Find("Right").gameObject);
-            }
-            else
-            {
-                walls.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
-            }
-
-            if (room.down != -1)
-            {
-                walls.transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
-            }
-
-            if (room.left == -1)
-            {
-                // small room so remove little bit hanging
-                Destroy(background.transform.Find("Left").gameObject);
-            }
-            else
-            {
-                walls.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
-            }
-        }
-        else if (room.data.type == 3)
-        {
-            // its a wide room
-            if (room.up == -1)
-            {
-                // small room so remove little bit hanging
-                Destroy(background.transform.Find("Up").gameObject);
-            }
-            else
-            {
-                walls.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-            }
-
             if (room.right != -1)
             {
                 walls.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
             }
-
-            if (room.down == -1)
-            {
-                // small room so remove little bit hanging
-                Destroy(background.transform.Find("Down").gameObject);
-            }
-            else
+            if (room.down != -1)
             {
                 walls.transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
             }
-
             if (room.left != -1)
             {
                 walls.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
@@ -413,6 +335,7 @@ public class LevelLoader : MonoBehaviour
             LoadPaths(room, RoomParent, PathDirectory);
         }
     }
+
 
     private void Start()
     {

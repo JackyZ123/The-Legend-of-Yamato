@@ -278,4 +278,9 @@ public class CreateLevel : MonoBehaviour
 
         PrintDetails();
     }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 }
