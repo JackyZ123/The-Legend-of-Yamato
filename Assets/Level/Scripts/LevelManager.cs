@@ -218,17 +218,10 @@ public class LevelManager : MonoBehaviour
                 GameObject path = Instantiate(debugPath);
                 path.transform.parent = debugPaths.transform;
 
-<<<<<<< HEAD
-                Vector2 newPathPos = thisNode.position + lastNode.position;
-                newPathPos.y = -newPathPos.y;
-                newPathPos = new Vector3(newPathPos.x, newPathPos.y, 0) * debugScale;
-                path.transform.localPosition = newPathPos + new Vector2(-9, 9);
-=======
                 Vector2 newPos = thisNode.position + lastNode.position;
                 newPos.y = -newPos.y;
                 newPos += new Vector2(-8, 9);
                 path.transform.localPosition = new Vector3(newPos.x, newPos.y, 0) * debugScale;
->>>>>>> parent of 5442ff8 (Thin and Wide Rooms)
                 Vector2 scale = new Vector2(1, 1);
 
                 if (thisNode.position.x - lastNode.position.x != 0)

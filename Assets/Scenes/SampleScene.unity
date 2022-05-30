@@ -455,6 +455,11 @@ MonoBehaviour:
   motor: {fileID: 0}
   levelManager: {fileID: 0}
   speed: 10
+  boost: 1
+  boost_time: 0
+  boost_multiplier: 2
+  boost_delay: 1
+  boost_delay_time: 0
 --- !u!114 &1386497089
 MonoBehaviour:
   m_ObjectHideFlags: 0
