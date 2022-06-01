@@ -56,6 +56,7 @@
     <Compile Include="Assets\Level\Scripts\CreateLevel.cs" />
     <Compile Include="Assets\Level\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
+    <Compile Include="Assets\Player\Scripts\Health.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
