@@ -57,7 +57,9 @@
     <Compile Include="Assets\Level\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Player\Scripts\Motor.cs" />
+    <Compile Include="Assets\player_move.cs" />
     <Compile Include="Assets\Player\Scripts\PlayerMove.cs" />
+    <Compile Include="Assets\move_for_enemy_1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BackupPlayerMove.txt" />
