@@ -13,12 +13,12 @@ public class Health : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            Damage(1);
+            //Damage(1);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Heal(1);
+            //Heal(1);
         }
     }
 
@@ -29,7 +29,9 @@ public class Health : MonoBehaviour
         {
             Debug.Log("cannot have negative damage");
         }
-        this.health -= amount;
+        health -= amount;
+        Debug.Log(health);
+        Debug.Log(amount);
         if (health < 0)
         {
             Die();
@@ -45,11 +47,11 @@ public class Health : MonoBehaviour
         }
         if (health + amount > Maxhealth)
         {
-            this.health = Maxhealth;
+            health = Maxhealth;
         }
         else
         {
-            this.health += amount;
+            health += amount;
         }
     }
 

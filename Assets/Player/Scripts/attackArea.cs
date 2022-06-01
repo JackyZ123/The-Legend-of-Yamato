@@ -5,15 +5,16 @@ using UnityEngine;
 public class attackArea : MonoBehaviour
 {
 
-    private int damage = 5;
+    private int damage = 1;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<Health>()! = null)
+        if (collider.GetComponent<Health>() != null)
         //if enemy is in range of attack, enemy takes damage
         {
             Health health = collider.GetComponent<Health>();
-            Health.Damage(damage);
+            health.Damage(damage);
+            Debug.Log("i've been hit");
         }
 
     }

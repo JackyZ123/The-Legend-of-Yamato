@@ -58,6 +58,7 @@
     <Compile Include="Assets\Player\Scripts\attackArea.cs" />
     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Player\Scripts\Health.cs" />
+    <Compile Include="Assets\Player\Scripts\Player_attack.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
