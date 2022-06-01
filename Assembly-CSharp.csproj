@@ -57,8 +57,14 @@
     <Compile Include="Assets\Level\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Player\Scripts\attackArea.cs" />
     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
+    <Compile Include="Assets\Player\Scripts\Motor.cs" />
+    <Compile Include="Assets\Player\Scripts\PlayerMove.cs" />
     <Compile Include="Assets\Player\Scripts\Health.cs" />
     <Compile Include="Assets\Player\Scripts\Player_attack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\BackupMotor.txt" />
+    <None Include="Assets\BackupPlayerMove.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

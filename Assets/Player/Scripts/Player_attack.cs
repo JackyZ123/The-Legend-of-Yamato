@@ -39,8 +39,8 @@ public class Player_attack : MonoBehaviour
             {
                 timer = 0;
                 attacking = false;
-                //attackArea.SetActive(attacking);
-                attackCollider.enabled = false;
+                attackArea.SetActive(attacking);
+                //attackCollider.enabled = false;
             }
         }
     }
@@ -49,7 +49,7 @@ public class Player_attack : MonoBehaviour
     //player attack
     {
         attacking = true;
-        //attackArea.SetActive(attacking);
-        attackCollider.enabled = true;
+        attackArea.SetActive(attacking);
+        //attackCollider.enabled = true;
     }
 }

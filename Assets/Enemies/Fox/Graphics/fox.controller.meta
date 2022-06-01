@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Enemies/Fox/Graphics/fox.controller.meta
 guid: 80cd73e1e969da1438ad82aa7c98effd
 NativeFormatImporter:
+========
+guid: 5f962e410b331584db8339cb0ac2a7a6
+TextScriptImporter:
+>>>>>>>> main:Assets/BackupMotor.txt.meta
   externalObjects: {}
   mainObjectFileID: 9100000
   userData: 

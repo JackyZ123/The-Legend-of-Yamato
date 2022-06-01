@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public class RoomData
     {
         public int type;
+
         public GameObject background;
         public GameObject Walls;
     }
@@ -17,7 +18,6 @@ public class LevelManager : MonoBehaviour
     public class Room
     {
         public int index;
-        public bool isComplete = false;
 
         public int up;
         public int right;
@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
         public int left;
 
         public Vector2 position;
+        public Vector2 mapPosition;
         public int distanceFromStart;
 
         [SerializeField]
@@ -47,6 +48,7 @@ public class LevelManager : MonoBehaviour
     public List<Room> rooms;
     public int maxDistance = 0;
     public Room endRoom;
+
 
     [Header("Debug")]
     public float debugScale = 0.75f;
@@ -81,15 +83,14 @@ public class LevelManager : MonoBehaviour
             room.left = paths[3];
 
             room.position = roomPos[i];
+            room.mapPosition = new Vector2(room.position.x, -room.position.y) * loader.roomSpread;
             room.distanceFromStart = distanceToRooms[i];
             maxDistance = Mathf.Max(maxDistance, distanceToRooms[i]);
 
-            if (room.data is null)
-            {
-                room.data = new RoomData();
-                room.data.type = loader.GetRoomType();
-                room.data.background = loader.GetRoomBackground(room.data.type);
-            }
+            int type = Random.Range(0, 2);
+            room.data = new RoomData();
+            room.data.type = type;
+            room.data.background = loader.GetRoomBackground(room.data.type);
 
             rooms.Add(room);
         }
@@ -217,10 +218,10 @@ public class LevelManager : MonoBehaviour
                 GameObject path = Instantiate(debugPath);
                 path.transform.parent = debugPaths.transform;
 
-                Vector2 newPathPos = thisNode.position + lastNode.position;
-                newPathPos.y = -newPathPos.y;
-                newPathPos = new Vector3(newPathPos.x, newPathPos.y, 0) * debugScale;
-                path.transform.position = newPathPos + new Vector2(-9, 9);
+                Vector2 newPos = thisNode.position + lastNode.position;
+                newPos.y = -newPos.y;
+                newPos += new Vector2(-8, 9);
+                path.transform.localPosition = new Vector3(newPos.x, newPos.y, 0) * debugScale;
                 Vector2 scale = new Vector2(1, 1);
 
                 if (thisNode.position.x - lastNode.position.x != 0)
@@ -261,8 +262,7 @@ public class LevelManager : MonoBehaviour
                 nodePrefab.GetComponent<SpriteRenderer>().color = Color.blue;
             }
 
-            Vector3 newPos = new Vector3(thisNode.position.x * 2, -thisNode.position.y * 2, 0) * debugScale;
-            nodePrefab.transform.localPosition = newPos + new Vector3(-9, 9);
+            nodePrefab.transform.localPosition = new Vector3(thisNode.position.x * 2 - 8, 9 - thisNode.position.y * 2, 0) * debugScale;
             nodePrefab.transform.localScale = Vector2.one * debugScale;
             nodePrefab.name = "Node " + thisNode.index.ToString();
             nodePrefab.GetComponentInChildren<TextMesh>().text = (thisNode.index < 10 ? "0" : "") + thisNode.index.ToString();
@@ -288,8 +288,6 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-
         if (!generator)
         {
             generator = GetComponent<CreateLevel>();
@@ -305,7 +303,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             DebugLevel();
         }
