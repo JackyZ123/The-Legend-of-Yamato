@@ -75,8 +75,6 @@ public class DistanceBasedMove : MonoBehaviour
             motor.MoveTo(speed, positionToGo, randomness);
         }
 
-        print(positionToGo);
-
     }
 
     IEnumerator CheckMove()

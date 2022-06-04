@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -220,9 +220,10 @@ GameObject:
   - component: {fileID: 648790475}
   - component: {fileID: 648790474}
   - component: {fileID: 648790477}
-  m_Layer: 0
+  - component: {fileID: 648790478}
+  m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -286,7 +287,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648790471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 105, y: -105, z: 0}
+  m_LocalPosition: {x: 105, y: -105, z: -1}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -363,6 +364,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &648790478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648790471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b58c30d49c43f489c20ec77e58570d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &909153123
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +516,9 @@ GameObject:
   - component: {fileID: 1386497088}
   - component: {fileID: 1386497087}
   - component: {fileID: 1386497090}
-  m_Layer: 0
+  - component: {fileID: 1386497092}
+  - component: {fileID: 1386497091}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -648,3 +663,37 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!114 &1386497091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386497084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a66b5daa7bade4a8a063efb5c3c939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  max_health: 5
+  damageInvulerability: 1.5
+  damageInvulerabilityTime: 0
+--- !u!114 &1386497092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386497084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3264f9030e5c0be46a4798ad37dfd12d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swingWeapon:
+    range: 2.5
+    delay: 0.8
+    angle: 120
+    damage: 5
+  swingDelayTime: 0
