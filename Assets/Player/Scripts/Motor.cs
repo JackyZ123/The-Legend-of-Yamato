@@ -51,7 +51,7 @@ public class Motor : MonoBehaviour
 
         if (direction.magnitude > 0.1f)
         {
-            rb.velocity = direction.normalized * speed;
+            rb.velocity = Vector2.Lerp(rb.velocity, direction.normalized * speed, 5f * Time.deltaTime);
         }
         else
         {

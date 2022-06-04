@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 648790474}
   - component: {fileID: 648790477}
   - component: {fileID: 648790478}
+  - component: {fileID: 648790479}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -376,6 +377,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b58c30d49c43f489c20ec77e58570d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  health: 0
+  rb: {fileID: 0}
+--- !u!114 &648790479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648790471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab62632952f1c044b374cc6fe7093b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  swingWeapon:
+    range: 2.5
+    minDelay: 1.2
+    delayRandomness: 1
+    damage: 1
+  swingDelayTime: 0
 --- !u!1 &909153123
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +535,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1386497086}
   - component: {fileID: 1386497085}
-  - component: {fileID: 1386497089}
   - component: {fileID: 1386497088}
   - component: {fileID: 1386497087}
   - component: {fileID: 1386497090}
@@ -624,7 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc68f95e5dc11d843a564c46be495fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motor: {fileID: 0}
+  rb: {fileID: 0}
   levelManager: {fileID: 0}
   speed: 10
   boost: 1
@@ -632,21 +654,6 @@ MonoBehaviour:
   boost_multiplier: 2
   boost_delay: 1
   boost_delay_time: 0
---- !u!114 &1386497089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386497084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22a3e12dca82068489b49cad36b3b0eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  positionToGo: {x: 0, y: 0}
-  speed: 0
 --- !u!58 &1386497090
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -692,8 +699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swingWeapon:
-    range: 2.5
-    delay: 0.8
+    range: 5
+    delay: 0.5
     angle: 120
-    damage: 5
+    knockback: 10
+    damage: 7
   swingDelayTime: 0

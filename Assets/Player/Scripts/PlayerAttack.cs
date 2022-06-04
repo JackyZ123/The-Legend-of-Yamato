@@ -10,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
         public float range = 2.5f;
         public float delay = 0.8f;
         public float angle = 30;
+        public float knockback = 10;
         public int damage = 5;
     }
 
@@ -79,7 +80,7 @@ public class PlayerAttack : MonoBehaviour
                 // deal damage
                 if (enemy.GetComponent<EnemyHealth>())
                 {
-                    enemy.GetComponent<EnemyHealth>().TakeDamage(swingWeapon.damage);
+                    enemy.GetComponent<EnemyHealth>().TakeDamage(swingWeapon.damage, swingWeapon.knockback, enemyDirection);
                 }
             }
         }
