@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public GameObject healthBar;
+
     public int health;
 
     public int max_health = 5;
@@ -15,6 +17,8 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         health = max_health;
+
+        UpdateHealthBar();
     }
 
     public bool TakeDamage(float damage = 1)
@@ -31,10 +35,20 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             print("died");
+            health = 0;
+            UpdateHealthBar();
             return true;
         }
 
+        UpdateHealthBar();
+
         return false;
+    }
+
+
+    private void UpdateHealthBar()
+    {
+        healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(20 * health, 20);
     }
 
     private void OnCollisionStay2D(Collision2D other)

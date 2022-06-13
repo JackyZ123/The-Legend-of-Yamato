@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
         public float angle = 30;
         public float knockback = 10;
         public int damage = 5;
+        public GameObject slashParticle;
     }
 
     [Header("Swing Attack")]
@@ -23,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
         swingDelayTime = 0;
     }
 
-    private float GetAngle(Vector2 direction)
+    public float GetAngle(Vector2 direction)
     {
         float angle = Vector2.Angle(Vector2.up, direction);
         if (direction.x < 0)
@@ -33,56 +34,45 @@ public class PlayerAttack : MonoBehaviour
         return angle;
     }
 
+    public void Attack()
+    {
+        swingDelayTime = swingWeapon.delay;
+
+        int screenWidth = Screen.width;
+        int screenHeight = Screen.height;
+
+        // get mouse position
+        Vector2 mouseScreenPosition = Input.mousePosition;
+        Vector2 mouseDirection = mouseScreenPosition - new Vector2(screenWidth / 2, screenHeight / 2);
+        mouseDirection = mouseDirection.normalized;
+        // print(mouseDirection);
+
+        float mouseAngle = GetAngle(mouseDirection);
+        // print(mouseAngle);
+
+        // add particle
+        if (swingWeapon.slashParticle)
+        {
+            GameObject slash = Instantiate(swingWeapon.slashParticle);
+            slash.transform.position = transform.position;
+            slash.transform.parent = transform;
+            slash.transform.Rotate(0, -swingWeapon.angle / 2 + mouseAngle, 0);
+            slash.transform.localScale = Vector3.one * (-1.4f + swingWeapon.range * 0.86f);
+            slash.GetComponent<ParticleSystem>().startLifetime = 0.314f / 360 * swingWeapon.angle;
+
+            SwingDamageEnemy script = slash.GetComponent<SwingDamageEnemy>();
+
+            script.SetData(swingWeapon.damage, swingWeapon.angle, mouseAngle, swingWeapon.knockback);
+        }
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && swingDelayTime <= 0)
         {
             // print("swing");
 
-            swingDelayTime = swingWeapon.delay;
-
-            int screenWidth = Screen.width;
-            int screenHeight = Screen.height;
-
-            // get mouse position
-            Vector2 mouseScreenPosition = Input.mousePosition;
-            Vector2 mouseDirection = mouseScreenPosition - new Vector2(screenWidth / 2, screenHeight / 2);
-            mouseDirection = mouseDirection.normalized;
-            // print(mouseDirection);
-
-            float mouseAngle = GetAngle(mouseDirection);
-            // print(mouseAngle);
-
-            // check for each enemy to see if they are in range
-            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-            {
-                Vector2 enemyDirection = enemy.transform.position - transform.position;
-
-                // check in range
-                // assuming enemy has a round collider
-                float enemyDistance = enemyDirection.magnitude - enemy.transform.localScale.x;
-
-                if (enemyDistance > swingWeapon.range)
-                {
-                    continue;
-                }
-
-                // check in angle
-                float enemyAngle = GetAngle(enemyDirection);
-                float angleDifference = (mouseAngle - enemyAngle + 360) % 360;
-
-                if (180 - Mathf.Abs(180 - angleDifference) > swingWeapon.angle / 2)
-                {
-                    // out of range
-                    continue;
-                }
-
-                // deal damage
-                if (enemy.GetComponent<EnemyHealth>())
-                {
-                    enemy.GetComponent<EnemyHealth>().TakeDamage(swingWeapon.damage, swingWeapon.knockback, enemyDirection);
-                }
-            }
+            Attack();
         }
 
 

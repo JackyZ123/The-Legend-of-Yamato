@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637895459973854490
+      ticks: 637901563451965102
     m_Hash: 582445477
   m_LockFileStatus:
     m_FilePath: C:/Users/jacky/Documents/Unity/The Legend of Yamato/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637895459973854490
+      ticks: 637901563451965102
     m_Hash: 548225153
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}

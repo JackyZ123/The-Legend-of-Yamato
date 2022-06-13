@@ -106,68 +106,68 @@ public class LevelLoader : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            // we move up if possible
-            if (currentRoom.up > -1)
-            {
-                // move up
-                currentRoom = manager.GetRoom(currentRoom.up);
-                manager.DebugLevel();
-            }
-            else
-            {
-                Debug.Log("Can't go up");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            // we move right if possible
-            if (currentRoom.right > -1)
-            {
-                // move right
-                currentRoom = manager.GetRoom(currentRoom.right);
-                manager.DebugLevel();
-            }
-            else
-            {
-                Debug.Log("Can't go right");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            // we move down if possible
-            if (currentRoom.down > -1)
-            {
-                // move down
-                currentRoom = manager.GetRoom(currentRoom.down);
-                manager.DebugLevel();
-            }
-            else
-            {
-                Debug.Log("Can't go up");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            // we move up if possible
-            if (currentRoom.left > -1)
-            {
-                // move left
-                currentRoom = manager.GetRoom(currentRoom.left);
-                manager.DebugLevel();
-            }
-            else
-            {
-                Debug.Log("Can't go left");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            manager.GenerateNewMap();
-            currentRoom = manager.GetRoom(0);
-            manager.DebugLevel();
-        }
+        // if (Input.GetKeyDown(KeyCode.UpArrow))
+        // {
+        //     // we move up if possible
+        //     if (currentRoom.up > -1)
+        //     {
+        //         // move up
+        //         currentRoom = manager.GetRoom(currentRoom.up);
+        //         manager.DebugLevel();
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Can't go up");
+        //     }
+        // }
+        // if (Input.GetKeyDown(KeyCode.RightArrow))
+        // {
+        //     // we move right if possible
+        //     if (currentRoom.right > -1)
+        //     {
+        //         // move right
+        //         currentRoom = manager.GetRoom(currentRoom.right);
+        //         manager.DebugLevel();
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Can't go right");
+        //     }
+        // }
+        // if (Input.GetKeyDown(KeyCode.DownArrow))
+        // {
+        //     // we move down if possible
+        //     if (currentRoom.down > -1)
+        //     {
+        //         // move down
+        //         currentRoom = manager.GetRoom(currentRoom.down);
+        //         manager.DebugLevel();
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Can't go up");
+        //     }
+        // }
+        // if (Input.GetKeyDown(KeyCode.LeftArrow))
+        // {
+        //     // we move up if possible
+        //     if (currentRoom.left > -1)
+        //     {
+        //         // move left
+        //         currentRoom = manager.GetRoom(currentRoom.left);
+        //         manager.DebugLevel();
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Can't go left");
+        //     }
+        // }
+        // if (Input.GetKeyDown(KeyCode.N))
+        // {
+        //     manager.GenerateNewMap();
+        //     currentRoom = manager.GetRoom(0);
+        //     manager.DebugLevel();
+        // }
     }
 
     void LoadRoom(LevelManager.Room room, GameObject parent)

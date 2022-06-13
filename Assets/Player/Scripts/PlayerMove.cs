@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public Rigidbody2D rb;
     public LevelManager levelManager;
+    public GameObject staminaBar;
 
     public float speed = 5f;
 
@@ -53,6 +54,8 @@ public class PlayerMove : MonoBehaviour
             move_speed *= boost_multiplier;
             boost_time -= Time.deltaTime;
             boost_delay_time = boost_delay;
+
+            UpdateStaminaBar();
         }
         else
         {
@@ -61,6 +64,10 @@ public class PlayerMove : MonoBehaviour
                 if (boost_time <= boost)
                 {
                     boost_time += Time.deltaTime;
+
+                    boost_time = Mathf.Min(boost_time, boost);
+
+                    UpdateStaminaBar();
                 }
             }
             else
@@ -73,5 +80,10 @@ public class PlayerMove : MonoBehaviour
         Vector2 moveDirection = new Vector2(horizontal_input, 0).normalized + new Vector2(0, vertical_input).normalized;
 
         rb.velocity = moveDirection * move_speed;
+    }
+
+    void UpdateStaminaBar()
+    {
+        staminaBar.GetComponent<RectTransform>().sizeDelta = new Vector2(boost_time / boost * 98, 13);
     }
 }

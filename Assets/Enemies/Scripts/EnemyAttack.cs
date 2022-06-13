@@ -8,8 +8,10 @@ public class EnemyAttack : MonoBehaviour
     public class SwingWeapon
     {
         public float range = 2.5f;
-        public float minDelay = 1.2f;
-        public float delayRandomness = 1f;
+        public float angle = 120;
+        public float minSwingDelay = 1.2f;
+        public float swingDelayRandomness = 1f;
+        public float attackDelay = 1f;
         public int damage = 1;
     }
 
@@ -21,7 +23,7 @@ public class EnemyAttack : MonoBehaviour
 
     private void Start()
     {
-        swingDelayTime = swingWeapon.minDelay + Random.Range(0, swingWeapon.delayRandomness);
+        swingDelayTime = swingWeapon.minSwingDelay + Random.Range(0, swingWeapon.swingDelayRandomness);
 
         if (!player)
         {
@@ -39,18 +41,33 @@ public class EnemyAttack : MonoBehaviour
         return angle;
     }
 
-    void Swing()
+    IEnumerator Swing()
     {
         // print("swing");
 
-        swingDelayTime = swingWeapon.minDelay + Random.Range(0, swingWeapon.delayRandomness);
-
-
         float enemyDistance = Vector2.Distance(player.transform.position, transform.position) - player.transform.localScale.x;
+
+        // check in angle
+        float playerAngle = GetAngle(player.transform.position - transform.position);
+
+        // wait before attacking
+        yield return new WaitForSeconds(swingWeapon.attackDelay);
+
+        Debug.Log("attack");
+
+        float newPlayerAngle = GetAngle(player.transform.position - transform.position);
+
+        float angleDifference = (newPlayerAngle - playerAngle + 360) % 360;
+
+        if (180 - Mathf.Abs(180 - angleDifference) > swingWeapon.angle / 2)
+        {
+            // out of range
+            yield break;
+        }
 
         if (enemyDistance > swingWeapon.range)
         {
-            return;
+            yield break;
         }
 
         // deal damage
@@ -58,19 +75,7 @@ public class EnemyAttack : MonoBehaviour
         {
             player.GetComponent<PlayerHealth>().TakeDamage(swingWeapon.damage);
         }
-    }
 
-    private void Update()
-    {
-        if (swingDelayTime <= 0)
-        {
-            Swing();
-        }
-
-
-        if (swingDelayTime > 0)
-        {
-            swingDelayTime -= Time.deltaTime;
-        }
+        StartCoroutine("Swing");
     }
 }
