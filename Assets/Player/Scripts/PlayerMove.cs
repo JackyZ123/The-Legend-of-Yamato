@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public Animator animator;
     public Rigidbody2D rb;
     public LevelManager levelManager;
 
@@ -47,6 +48,9 @@ public class PlayerMove : MonoBehaviour
         bool is_boost = Input.GetKey(KeyCode.LeftShift);
 
         float move_speed = speed;
+
+        animator.SetFloat("vertical speed", vertical_input);
+        animator.SetFloat("horizontal speed", horizontal_input);
 
         if (is_boost && boost_time > 0)
         {

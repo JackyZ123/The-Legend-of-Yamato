@@ -541,6 +541,7 @@ GameObject:
   - component: {fileID: 1386497092}
   - component: {fileID: 1386497091}
   - component: {fileID: 1386497089}
+  - component: {fileID: 1386497093}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -588,12 +589,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4334783836991956000, guid: a28ead2bdfbb06841aefc4ef2e8f9015, type: 3}
+  m_Sprite: {fileID: 4334783836991956000, guid: b77dcac597f8a204eb49e278d14bd989, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 8, y: 8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -607,8 +608,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1386497084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.61, y: 1.12, z: -1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.3974, y: 0.3404, z: -1}
+  m_LocalScale: {x: 0.9468, y: 0.8051, z: 1}
   m_Children:
   - {fileID: 519420032}
   m_Father: {fileID: 0}
@@ -647,6 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc68f95e5dc11d843a564c46be495fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1386497089}
   rb: {fileID: 0}
   levelManager: {fileID: 0}
   speed: 10
@@ -725,3 +727,23 @@ MonoBehaviour:
     knockback: 10
     damage: 7
   swingDelayTime: 0
+--- !u!111 &1386497093
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386497084}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 5c9afcedfaabf26498689511964a3a7f, type: 2}
+  - {fileID: 7400000, guid: 45a0984c5fdd840499e493b45b8f916f, type: 2}
+  - {fileID: 7400000, guid: f1172724a8e71e94e91d4192e12e4f97, type: 2}
+  - {fileID: 7400000, guid: 2db7841d2e3664048af06c1a8a8bb817, type: 2}
+  - {fileID: 7400000, guid: 0f541bca9dd0ae84288bc3b0de8edfe3, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
