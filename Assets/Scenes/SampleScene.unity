@@ -516,6 +516,7 @@ MonoBehaviour:
     - list:
       - {fileID: 5567529387124155747, guid: 382d1f656a6f2cc45881dfc17e0cc77b, type: 3}
       - {fileID: 4493403811135737996, guid: 1306929d969ec7544bc51f0120f3e8a1, type: 3}
+      - {fileID: 4838055388531539846, guid: ed4c34104791b8146b2e2728be6d077f, type: 3}
     - list:
       - {fileID: 8271513932176853014, guid: 670560307a1921847b1f2ff4b253eeee, type: 3}
   roomWalls:
