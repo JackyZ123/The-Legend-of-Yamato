@@ -222,6 +222,8 @@ GameObject:
   - component: {fileID: 648790477}
   - component: {fileID: 648790478}
   - component: {fileID: 648790479}
+  - component: {fileID: 648790481}
+  - component: {fileID: 648790480}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -269,8 +271,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0.15471691, b: 0.15471691, a: 1}
+  m_Sprite: {fileID: 1184227297463268781, guid: a59aec96b5a81f14b9614df2d14505ec, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -288,8 +290,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648790471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 105, y: -105, z: -1}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 102.089, y: -102.0308, z: -1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -313,6 +315,7 @@ MonoBehaviour:
   preferredDistance: 3
   preferredDistanceRange: 0.5
   timeBetweenMove: 0.1
+  animator: {fileID: 648790481}
 --- !u!114 &648790475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +402,45 @@ MonoBehaviour:
     delayRandomness: 1
     damage: 1
   swingDelayTime: 0
+--- !u!111 &648790480
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648790471}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: e7d5a79ce1c1eb84787369587c8146ec, type: 2}
+  - {fileID: 7400000, guid: c2ad95ade3874de46ac7a796ec26d294, type: 2}
+  - {fileID: 7400000, guid: 711de870c8523b140ae282fbbd064253, type: 2}
+  - {fileID: 7400000, guid: be11396f10cd0b44facd84099cabb20b, type: 2}
+  - {fileID: 7400000, guid: 8645000cda5cf9b4cb3f2051309bdb1c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &648790481
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648790471}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5ca661c29bdcda24c9c41bf53b1e8700, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &909153123
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,11 +556,9 @@ MonoBehaviour:
   roomBackgrounds:
     list:
     - list:
-      - {fileID: 5567529387124155747, guid: 382d1f656a6f2cc45881dfc17e0cc77b, type: 3}
-      - {fileID: 4493403811135737996, guid: 1306929d969ec7544bc51f0120f3e8a1, type: 3}
       - {fileID: 4838055388531539846, guid: ed4c34104791b8146b2e2728be6d077f, type: 3}
     - list:
-      - {fileID: 8271513932176853014, guid: 670560307a1921847b1f2ff4b253eeee, type: 3}
+      - {fileID: 7287938787074175647, guid: 3cfde8e969334f7418b6be3195f1d8ca, type: 3}
   roomWalls:
   - {fileID: 7007172446335157738, guid: 46dc54282210bb04a9a63f2baa59b6c4, type: 3}
   - {fileID: 3187698158982084081, guid: 736d288d44d3bbb4fb3d592d530e9a32, type: 3}
@@ -610,7 +650,7 @@ Transform:
   m_GameObject: {fileID: 1386497084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.3974, y: 0.3404, z: -1}
-  m_LocalScale: {x: 0.9468, y: 0.8051, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children:
   - {fileID: 519420032}
   m_Father: {fileID: 0}

@@ -14,10 +14,12 @@ public class DistanceBasedMove : MonoBehaviour
     public float preferredDistanceRange = 0.5f;
 
     public float timeBetweenMove = 1f;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+
         if (!motor)
         {
             motor = GetComponent<Motor>();
@@ -75,6 +77,43 @@ public class DistanceBasedMove : MonoBehaviour
             motor.MoveTo(speed, positionToGo, randomness);
         }
 
+        print(vectorToPlayer.x);
+
+        if (vectorToPlayer.y > 0)
+        {
+            animator.SetBool("up", true);
+        }
+        else
+        {
+            animator.SetBool("up", false);
+        }
+
+        if (vectorToPlayer.y < 0)
+        {
+            animator.SetBool("down", true);
+        }
+        else
+        {
+            animator.SetBool("down", false);
+        }
+
+        if(vectorToPlayer.x > 1)
+        {
+            animator.SetBool("right", true);
+        }
+        else
+        {
+            animator.SetBool("right", false);
+        }
+
+        if(vectorToPlayer.x < -1)
+        {
+            animator.SetBool("left", true);
+        }
+        else
+        {
+            animator.SetBool("left", false);
+        }
     }
 
     IEnumerator CheckMove()
