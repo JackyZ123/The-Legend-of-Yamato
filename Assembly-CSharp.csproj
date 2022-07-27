@@ -39,6 +39,7 @@
      <Compile Include="Assets\Level\Scripts\CreateLevel.cs" />
      <Compile Include="Assets\Level\Scripts\LevelLoader.cs" />
      <Compile Include="Assets\DestroyOverTime.cs" />
+     <Compile Include="Assets\SwingDamagePlayer.cs" />
      <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Player\Scripts\PlayerAttack.cs" />
      <Compile Include="Assets\Player\Scripts\Motor.cs" />
@@ -48,6 +49,7 @@
      <Compile Include="Assets\Enemies\Scripts\EnemyAttack.cs" />
      <Compile Include="Assets\Player\Scripts\PlayerHealth.cs" />
      <Compile Include="Assets\Player\Scripts\PlayerMove.cs" />
+     <Compile Include="Assets\SamuraiAI.cs" />
      <None Include="Assets\BackupPlayerMove.txt" />
      <None Include="Assets\BackupMotor.txt" />
     <Reference Include="UnityEngine">

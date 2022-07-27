@@ -47,6 +47,10 @@ public class PlayerAttack : MonoBehaviour
         mouseDirection = mouseDirection.normalized;
         // print(mouseDirection);
 
+        // key direction
+
+        mouseDirection = GetComponent<PlayerMove>().GetMoveDirection();
+
         float mouseAngle = GetAngle(mouseDirection);
         // print(mouseAngle);
 
@@ -62,7 +66,7 @@ public class PlayerAttack : MonoBehaviour
 
             SwingDamageEnemy script = slash.GetComponent<SwingDamageEnemy>();
 
-            script.SetData(swingWeapon.damage, swingWeapon.angle, mouseAngle, swingWeapon.knockback);
+            script.SetData(swingWeapon.damage, swingWeapon.angle, mouseAngle, swingWeapon.knockback, 0.314f / 360 * swingWeapon.angle);
         }
     }
 

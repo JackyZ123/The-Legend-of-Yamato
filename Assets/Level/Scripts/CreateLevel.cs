@@ -87,7 +87,7 @@ public class CreateLevel : MonoBehaviour
         }
 
         // decrease chance of large maps
-        if (node > 8)
+        if (node > minRooms)
         {
             for (int i = 0; i < node - 5; i++)
             {

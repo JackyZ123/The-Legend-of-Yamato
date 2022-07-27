@@ -13,6 +13,8 @@ public class SwingDamageEnemy : MonoBehaviour
     public int width;
     public int height;
 
+    private List<GameObject> hasHit = new List<GameObject>();
+
     private void Start()
     {
         width = Screen.width;
@@ -21,12 +23,13 @@ public class SwingDamageEnemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    public void SetData(int newDamage, float newAngle, float newMouseAngle, float newKnockback = 0)
+    public void SetData(int newDamage, float newAngle, float newMouseAngle, float newKnockback = 0, float swingTime = 0)
     {
         damage = newDamage;
         angle = newAngle;
         mouseAngle = newMouseAngle;
         knockback = newKnockback;
+        Destroy(GetComponent<Collider2D>(), swingTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -38,11 +41,14 @@ public class SwingDamageEnemy : MonoBehaviour
 
         GameObject enemy = other.gameObject;
 
-        Vector2 enemyDirection = enemy.transform.position - transform.position;
+        if (hasHit.Contains(enemy))
+        {
+            return;
+        }
 
-        // check in range
-        // assuming enemy has a round collider
-        float enemyDistance = enemyDirection.magnitude - enemy.transform.localScale.x;
+        hasHit.Add(enemy);
+
+        Vector2 enemyDirection = enemy.transform.position - transform.position;
 
         // check in angle
         float enemyAngle = player.GetComponent<PlayerAttack>().GetAngle(enemyDirection);

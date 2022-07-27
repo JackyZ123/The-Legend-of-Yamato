@@ -12,10 +12,15 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Boost")]
     public float boost = 2f;
-    public float boost_time;
-    public float boost_multiplier;
-    public float boost_delay = 2f;
-    public float boost_delay_time;
+    public float boostTime;
+    public float boostMultiplier;
+    public float boostDelay = 2f;
+    public float boostDelayTime;
+
+    public float inputDelay = 0;
+
+    public Vector2 moveDirection = Vector2.zero;
+    public Vector2 lookDirection = Vector2.up;
 
     private void Awake()
     {
@@ -28,8 +33,8 @@ public class PlayerMove : MonoBehaviour
             levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         }
 
-        boost_time = boost;
-        boost_delay_time = boost_delay;
+        boostTime = boost;
+        boostDelayTime = boostDelay;
     }
 
     private void Start()
@@ -40,50 +45,84 @@ public class PlayerMove : MonoBehaviour
         transform.position = startPos;
     }
 
+    public Vector2 GetMoveDirection()
+    {
+        return lookDirection;
+    }
+
+    void GetMoveInput()
+    {
+        float newVerticalInput = Input.GetAxisRaw("Vertical");
+        float newHorizontalInput = Input.GetAxisRaw("Horizontal");
+
+        // check for diagonal
+        // if let go of a key, in the next 0.05s, if the other key is let go, dont record
+        if (moveDirection.x != 0 && newHorizontalInput == 0 || moveDirection.y != 0 && newVerticalInput == 0)
+        {
+            // we just let go of a key
+            inputDelay = 0.05f;
+        }
+
+        if (inputDelay > 0)
+        {
+            // we have just let go of a key
+            inputDelay -= Time.deltaTime;
+
+            // we should not care about zeros but take others
+            lookDirection.x = newHorizontalInput == 0 ? lookDirection.x : newHorizontalInput;
+            lookDirection.y = newVerticalInput == 0 ? lookDirection.y : newVerticalInput;
+        }
+        else
+        {
+            // we want the new input if its not (0,0)
+            lookDirection.x = newHorizontalInput == 0 && newVerticalInput == 0 ? lookDirection.x : newHorizontalInput;
+            lookDirection.y = newHorizontalInput == 0 && newVerticalInput == 0 ? lookDirection.y : newVerticalInput;
+        }
+
+        moveDirection = new Vector2(newHorizontalInput, 0).normalized + new Vector2(0, newVerticalInput).normalized;
+    }
+
     private void Update()
     {
-        float vertical_input = Input.GetAxisRaw("Vertical");
-        float horizontal_input = Input.GetAxisRaw("Horizontal");
+        GetMoveInput();
 
         bool is_boost = Input.GetKey(KeyCode.LeftShift);
 
         float move_speed = speed;
 
-        if (is_boost && boost_time > 0)
+        if (is_boost && boostTime > 0)
         {
-            move_speed *= boost_multiplier;
-            boost_time -= Time.deltaTime;
-            boost_delay_time = boost_delay;
+            move_speed *= boostMultiplier;
+            boostTime -= Time.deltaTime;
+            boostDelayTime = boostDelay;
 
             UpdateStaminaBar();
         }
         else
         {
-            if (boost_delay_time <= 0)
+            if (boostDelayTime <= 0)
             {
-                if (boost_time <= boost)
+                if (boostTime <= boost)
                 {
-                    boost_time += Time.deltaTime;
+                    boostTime += Time.deltaTime;
 
-                    boost_time = Mathf.Min(boost_time, boost);
+                    boostTime = Mathf.Min(boostTime, boost);
 
                     UpdateStaminaBar();
                 }
             }
             else
             {
-                boost_delay_time -= Time.deltaTime;
+                boostDelayTime -= Time.deltaTime;
                 // Debug.Log("Test");
             }
         }
-
-        Vector2 moveDirection = new Vector2(horizontal_input, 0).normalized + new Vector2(0, vertical_input).normalized;
 
         rb.velocity = moveDirection * move_speed;
     }
 
     void UpdateStaminaBar()
     {
-        staminaBar.GetComponent<RectTransform>().sizeDelta = new Vector2(boost_time / boost * 98, 13);
+        staminaBar.GetComponent<RectTransform>().sizeDelta = new Vector2(boostTime / boost * 98, 13);
     }
 }

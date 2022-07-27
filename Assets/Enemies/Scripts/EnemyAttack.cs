@@ -13,6 +13,8 @@ public class EnemyAttack : MonoBehaviour
         public float swingDelayRandomness = 1f;
         public float attackDelay = 1f;
         public int damage = 1;
+
+        public GameObject slashParticle;
     }
 
     public GameObject player;
@@ -20,6 +22,8 @@ public class EnemyAttack : MonoBehaviour
     [Header("Swing Attack")]
     public SwingWeapon swingWeapon;
     public float swingDelayTime = 0;
+
+    public GameObject exclamationMark;
 
     private void Start()
     {
@@ -29,6 +33,8 @@ public class EnemyAttack : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player");
         }
+
+        StartCoroutine("Swing");
     }
 
     private float GetAngle(Vector2 direction)
@@ -44,37 +50,31 @@ public class EnemyAttack : MonoBehaviour
     IEnumerator Swing()
     {
         // print("swing");
+        yield return new WaitForSeconds(swingWeapon.minSwingDelay + Random.Range(0, swingWeapon.swingDelayRandomness));
 
-        float enemyDistance = Vector2.Distance(player.transform.position, transform.position) - player.transform.localScale.x;
+        GameObject mark = Instantiate(exclamationMark, transform.position + new Vector3(0.75f, 0.75f, 0), Quaternion.identity);
+        mark.transform.parent = transform;
+
+        // wait before attacking
+        yield return new WaitForSeconds(Mathf.Max(swingWeapon.attackDelay - 0.2f, 0));
 
         // check in angle
         float playerAngle = GetAngle(player.transform.position - transform.position);
 
-        // wait before attacking
-        yield return new WaitForSeconds(swingWeapon.attackDelay);
+        yield return new WaitForSeconds(0.2f);
 
-        Debug.Log("attack");
+        Destroy(mark);
 
-        float newPlayerAngle = GetAngle(player.transform.position - transform.position);
+        GameObject slash = Instantiate(swingWeapon.slashParticle);
+        slash.transform.position = transform.position;
+        slash.transform.parent = transform;
+        slash.transform.Rotate(0, -swingWeapon.angle / 2 + playerAngle, 0);
+        slash.transform.localScale = Vector3.one * (-1.4f + swingWeapon.range * 0.86f);
+        slash.GetComponent<ParticleSystem>().startLifetime = 0.314f / 360 * swingWeapon.angle;
 
-        float angleDifference = (newPlayerAngle - playerAngle + 360) % 360;
+        SwingDamagePlayer script = slash.GetComponent<SwingDamagePlayer>();
 
-        if (180 - Mathf.Abs(180 - angleDifference) > swingWeapon.angle / 2)
-        {
-            // out of range
-            yield break;
-        }
-
-        if (enemyDistance > swingWeapon.range)
-        {
-            yield break;
-        }
-
-        // deal damage
-        if (player.GetComponent<PlayerHealth>())
-        {
-            player.GetComponent<PlayerHealth>().TakeDamage(swingWeapon.damage);
-        }
+        script.SetData(swingWeapon.damage, swingWeapon.angle, playerAngle, 0.314f / 360 * swingWeapon.angle);
 
         StartCoroutine("Swing");
     }
