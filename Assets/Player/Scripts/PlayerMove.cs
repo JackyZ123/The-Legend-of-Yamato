@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Motor))]
 public class PlayerMove : MonoBehaviour
 {
-    public Motor motor;
+    public Animator animator;
+    public Rigidbody2D rb;
     public LevelManager levelManager;
 
     public float speed = 5f;
@@ -19,9 +19,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
-        if (!motor)
+        if (!rb)
         {
-            motor = GetComponent<Motor>();
+            rb = GetComponent<Rigidbody2D>();
         }
         if (!levelManager)
         {
@@ -49,6 +49,9 @@ public class PlayerMove : MonoBehaviour
 
         float move_speed = speed;
 
+        animator.SetFloat("vertical speed", vertical_input);
+        animator.SetFloat("horizontal speed", horizontal_input);
+
         if (is_boost && boost_time > 0)
         {
             move_speed *= boost_multiplier;
@@ -71,6 +74,8 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        motor.Move(move_speed, new Vector2(horizontal_input, 0).normalized + new Vector2(0, vertical_input).normalized);
+        Vector2 moveDirection = new Vector2(horizontal_input, 0).normalized + new Vector2(0, vertical_input).normalized;
+
+        rb.velocity = moveDirection * move_speed;
     }
 }
