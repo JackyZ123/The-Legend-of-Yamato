@@ -54,13 +54,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Level\Scripts\CreateLevel.cs" />
+    <Compile Include="Assets\Level\Scripts\StartingMenu.cs" />
     <Compile Include="Assets\Level\Scripts\LevelLoader.cs" />
+    <Compile Include="Assets\Enemies\samurai\Script\SamuraiAI.cs" />
+    <Compile Include="Assets\Enemies\Fox\Scripts\FoxAI.cs" />
     <Compile Include="Assets\Level\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Enemies\Scripts\DistanceBasedMove.cs" />
+    <Compile Include="Assets\Player\Scripts\PlayerAttack.cs" />
     <Compile Include="Assets\Player\Scripts\Motor.cs" />
-    <Compile Include="Assets\player_move.cs" />
+    <Compile Include="Assets\Enemies\Scripts\EnemyHealth.cs" />
+    <Compile Include="Assets\Enemies\Scripts\EnemyAttack.cs" />
+    <Compile Include="Assets\Level\Scripts\DeathMenu.cs" />
+    <Compile Include="Assets\Player\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Player\Scripts\PlayerMove.cs" />
-    <Compile Include="Assets\move_for_enemy_1.cs" />
+    <Compile Include="Assets\Level\Scripts\OptionMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BackupPlayerMove.txt" />

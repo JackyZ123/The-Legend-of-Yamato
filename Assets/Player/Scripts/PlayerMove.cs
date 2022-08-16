@@ -16,7 +16,6 @@ public class PlayerMove : MonoBehaviour
     public float boost_multiplier;
     public float boost_delay = 2f;
     public float boost_delay_time;
-
     private void Awake()
     {
         if (!rb)

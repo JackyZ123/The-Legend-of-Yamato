@@ -315,8 +315,24 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    public void LoadLevel(List<LevelManager.Room> rooms)
+    public void LoadLevel(List<LevelManager.Room> rooms, LevelManager newManager = null)
     {
+        if (!manager && newManager)
+        {
+            manager = newManager;
+        }
+
+        if (GameObject.Find("Rooms"))
+        {
+            DestroyImmediate(GameObject.Find("Rooms"));
+        }
+        if (GameObject.Find("Paths"))
+        {
+            DestroyImmediate(GameObject.Find("Paths"));
+        }
+
+        currentRoom = manager.GetRoom(0);
+
         GameObject RoomDirectory = new GameObject();
         RoomDirectory.name = "Rooms";
         GameObject PathDirectory = new GameObject();
@@ -339,8 +355,8 @@ public class LevelLoader : MonoBehaviour
 
     private void Start()
     {
-        currentRoom = manager.GetRoom(0);
+        //currentRoom = manager.GetRoom(0);
         // manager.DebugLevel();
-        LoadLevel(manager.rooms);
+        //LoadLevel(manager.rooms);
     }
 }

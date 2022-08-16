@@ -60,6 +60,7 @@ public class LevelManager : MonoBehaviour
         generator.CreateNewMap((int)size.x, (int)size.y, (int)startPos.x, (int)startPos.y, minRoomNum, startDirections, numPathProbabilities);
         GetMap();
         GetEndRoom();
+        loader.LoadLevel(rooms,this);
     }
 
     void GetMap()

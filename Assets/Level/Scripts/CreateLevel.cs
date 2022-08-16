@@ -33,7 +33,6 @@ public class CreateLevel : MonoBehaviour
         return distanceToRooms;
     }
 
-
     int MakeLayout(int x, int y, int lx, int ly, int direction)
     {
         // return if out of range
