@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 5797847950646801981}
   - component: {fileID: 5797847950646801980}
   - component: {fileID: 5797847950646801976}
-  - component: {fileID: 5797847950646801983}
-  - component: {fileID: 5797847950646801982}
   - component: {fileID: 5797847950646801977}
   - component: {fileID: 5797847950646801978}
-  - component: {fileID: 5797847950646801979}
+  - component: {fileID: 2001563279}
+  - component: {fileID: 2001563278}
+  - component: {fileID: 2001563280}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: -1328349183
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0.15471691, b: 0.15471691, a: 1}
+  m_Sprite: {fileID: 1184227297463268781, guid: a59aec96b5a81f14b9614df2d14505ec, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,45 +104,11 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 74580d0260156a348b8d56e05661cc33, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5797847950646801983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5797847950646801971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22a3e12dca82068489b49cad36b3b0eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  positionToGo: {x: 0, y: 0}
-  speed: 0
---- !u!114 &5797847950646801982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5797847950646801971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0a95b2cbdf3b848bf9ef8b2b2e1026, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  motor: {fileID: 0}
-  player: {fileID: 0}
-  speed: 7
-  randomness: 0.2
-  preferredDistance: 3
-  preferredDistanceRange: 0.5
-  timeBetweenMove: 0.1
 --- !u!58 &5797847950646801977
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -152,7 +118,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 5797847950646801971}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 74580d0260156a348b8d56e05661cc33, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -171,10 +137,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b58c30d49c43f489c20ec77e58570d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 30
   health: 0
   rb: {fileID: 0}
---- !u!114 &5797847950646801979
+--- !u!95 &2001563279
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5797847950646801971}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3dcce46d69ba5b549997d2c515cddfb7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2001563278
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,17 +168,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 5797847950646801971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ab62632952f1c044b374cc6fe7093b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 411e1c02162620f4c892b04d0a387d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  swingWeapon:
-    range: 3.5
-    angle: 120
-    minSwingDelay: 1.2
-    swingDelayRandomness: 1
-    attackDelay: 1
-    damage: 1
-    slashParticle: {fileID: 5871629811164214893, guid: cd3669a0a8709b8489379d91af5d0f64, type: 3}
-  swingDelayTime: 0
+  damage: 1
+  speed: 10
+  timeBetweenAttacks: 3
+  difficulty: 1
+  weaponAngle: 120
+  weaponRange: 5
   exclamationMark: {fileID: 1771780997152774000, guid: bd330ea66f88d644da494f4e9fed33c4, type: 3}
+  slashParticle: {fileID: 5871629811164214893, guid: cd3669a0a8709b8489379d91af5d0f64, type: 3}
+  player: {fileID: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+--- !u!114 &2001563280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5797847950646801971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c133e65f7c3554646940bc44ccf2ad82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2001563279}
+  rb: {fileID: 0}

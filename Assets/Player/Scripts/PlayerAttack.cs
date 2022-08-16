@@ -4,85 +4,45 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [System.Serializable]
-    public class SwingWeapon
-    {
-        public float range = 2.5f;
-        public float delay = 0.8f;
-        public float angle = 30;
-        public float knockback = 10;
-        public int damage = 5;
-        public GameObject slashParticle;
-    }
-
-    [Header("Swing Attack")]
-    public SwingWeapon swingWeapon;
-    public float swingDelayTime = 0;
+    public List<GameObject> weapons;
+    private int currentWeaponIndex = 0;
 
     private void Start()
     {
-        swingDelayTime = 0;
+        foreach (Transform t in transform.GetComponentsInChildren<Transform>())
+        {
+            if (t == transform)
+            {
+                continue;
+            }
+
+            weapons.Add(t.gameObject);
+        }
     }
 
-    public float GetAngle(Vector2 direction)
+    public GameObject GetCurrentWeapon()
     {
-        float angle = Vector2.Angle(Vector2.up, direction);
-        if (direction.x < 0)
-        {
-            angle = 360 - angle;
-        }
-        return angle;
-    }
-
-    public void Attack()
-    {
-        swingDelayTime = swingWeapon.delay;
-
-        int screenWidth = Screen.width;
-        int screenHeight = Screen.height;
-
-        // get mouse position
-        Vector2 mouseScreenPosition = Input.mousePosition;
-        Vector2 mouseDirection = mouseScreenPosition - new Vector2(screenWidth / 2, screenHeight / 2);
-        mouseDirection = mouseDirection.normalized;
-        // print(mouseDirection);
-
-        // key direction
-
-        mouseDirection = GetComponent<PlayerMove>().GetMoveDirection();
-
-        float mouseAngle = GetAngle(mouseDirection);
-        // print(mouseAngle);
-
-        // add particle
-        if (swingWeapon.slashParticle)
-        {
-            GameObject slash = Instantiate(swingWeapon.slashParticle);
-            slash.transform.position = transform.position;
-            slash.transform.parent = transform;
-            slash.transform.Rotate(0, -swingWeapon.angle / 2 + mouseAngle, 0);
-            slash.transform.localScale = Vector3.one * (-1.4f + swingWeapon.range * 0.86f);
-            slash.GetComponent<ParticleSystem>().startLifetime = 0.314f / 360 * swingWeapon.angle;
-
-            SwingDamageEnemy script = slash.GetComponent<SwingDamageEnemy>();
-
-            script.SetData(swingWeapon.damage, swingWeapon.angle, mouseAngle, swingWeapon.knockback, 0.314f / 360 * swingWeapon.angle);
-        }
+        return weapons[currentWeaponIndex];
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && swingDelayTime <= 0)
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            // print("swing");
-
-            Attack();
+            GameObject weapon = weapons[currentWeaponIndex];
+            weapon.BroadcastMessage("Attack");
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            GameObject weapon = weapons[currentWeaponIndex];
+            weapon.BroadcastMessage("Release", SendMessageOptions.DontRequireReceiver);
         }
 
-
-        if (swingDelayTime > 0)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            swingDelayTime -= Time.deltaTime;
+            currentWeaponIndex = (currentWeaponIndex + 1) % weapons.Count;
+            GameObject weapon = weapons[currentWeaponIndex];
+            weapon.BroadcastMessage("Delay", new Vector2(0.5f, 0));
         }
     }
 }

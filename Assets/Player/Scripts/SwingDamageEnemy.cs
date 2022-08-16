@@ -22,6 +22,15 @@ public class SwingDamageEnemy : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
     }
+    public float GetAngle(Vector2 direction)
+    {
+        float angle = Vector2.Angle(Vector2.up, direction);
+        if (direction.x < 0)
+        {
+            angle = 360 - angle;
+        }
+        return angle;
+    }
 
     public void SetData(int newDamage, float newAngle, float newMouseAngle, float newKnockback = 0, float swingTime = 0)
     {
@@ -51,7 +60,7 @@ public class SwingDamageEnemy : MonoBehaviour
         Vector2 enemyDirection = enemy.transform.position - transform.position;
 
         // check in angle
-        float enemyAngle = player.GetComponent<PlayerAttack>().GetAngle(enemyDirection);
+        float enemyAngle = GetAngle(enemyDirection);
         float angleDifference = (mouseAngle - enemyAngle + 360) % 360;
 
         if (180 - Mathf.Abs(180 - angleDifference) > angle / 2)

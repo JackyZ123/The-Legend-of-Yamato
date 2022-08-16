@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public Animator animator;
+
     public Rigidbody2D rb;
     public LevelManager levelManager;
     public GameObject staminaBar;
@@ -30,7 +32,7 @@ public class PlayerMove : MonoBehaviour
         }
         if (!levelManager)
         {
-            levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+            levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
         }
 
         boostTime = boost;
@@ -54,6 +56,9 @@ public class PlayerMove : MonoBehaviour
     {
         float newVerticalInput = Input.GetAxisRaw("Vertical");
         float newHorizontalInput = Input.GetAxisRaw("Horizontal");
+
+        animator.SetFloat("vertical speed", newVerticalInput);
+        animator.SetFloat("horizontal speed", newHorizontalInput);
 
         // check for diagonal
         // if let go of a key, in the next 0.05s, if the other key is let go, dont record
